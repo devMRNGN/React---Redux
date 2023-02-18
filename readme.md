@@ -153,3 +153,128 @@ export default function First(){
 
 ## Componentes com propriedades/parâmetros
 
+* No react é interessante sempre você utilizar a extensão JSX para fazer seus compoentens
+* O medelo base de um componente no react sempre será o seguinte:
+* Sempre retornando um elemento HTML apenas, mais de um ele da erro, portanto caso deseje retornar mais de um, aconselha-se que voce coloque eles dentro de um outro
+```jsx
+export default function(){
+   return (
+      <div>
+         
+      </div>
+   )
+}
+```
+* Ao passar uma propriedade "props" para um componente, funciona como definir um atributo no html, da seguinte maneira
+``` jsx
+<ComParametro 
+   titulo="Segundo Componentes" 
+   subtitulo="Muito legal!"
+/>
+```
+* Para acessar essas propriedades dentro da sua função, funciona como uma função, voce passa pra sua função os parâmetros
+* Voce passa o props como parametro pra função, e voce acessa os dados dele, como se fosse um objeto com cada propriedade que voce enviou
+``` jsx
+export default function ComParametro(props){
+   return (
+      <div>
+         <h2>{ props.titulo }</h2>
+         <h3>{ props.subtitulo }</h3>
+      </div>
+   )
+}
+```
+* Voce tambémt em a opção de passar uma "props" além de string, number, objeto e etc
+* Para fazer isso, basta apenas voce envolver o dado entre chaves, ex:
+``` jsx
+<ComParametro
+   grade={10} // number
+   grades={[10,8.9,5.5,7.7]} // Array numbers
+   student={{
+      name: "Mayra",
+      phone: "1999545665",
+      responsible: "Angela Maria"
+   }}
+   students={[{ // Array de objetos
+      name: "Mayra",
+      phone: "1999545665",
+      responsible: "Maria"
+   },
+   {
+      name: "João",
+      phone: "1995959559",
+      responsible: "Meire"
+   }]}
+/>
+// Caso você precise acessar esses objetos ficaria
+{ props.students[0].name } // Mayra
+{ props.students[1].name } // João
+```
+* A ideia de um componente é que você reutilize-o várias vezes se possíveis para tirar o máximo de utilidade do mesmo ex de varios alunos sendo exibidos apartir de um componente
+``` jsx
+<ComParametro
+   title="Student situation"
+   student="Mayra"
+   grade={10}
+/>
+<ComParametro
+   title="Student situation"
+   student="Pedro"
+   grande={8.5}
+/>
+```
+* Utilizando props para definir se o aluno está aprovado ou não, e mostrar na tela:
+``` jsx
+export default function ComParametro(props){
+   const status = props.grade >= 7 ? "Approved" : "Desapproved";
+   return (
+      <div>
+         <h2>{ props.title }</h2>
+         <p><strong>{ props.student }</strong> 
+            have grade 
+            <strong>{ props.grade }</strong>
+            and is <strong>{ status }</strong>
+         </p>
+      </div>
+   )
+}
+```
+
+### Props is read only: É impossivel alterar uma propriedade que já foi passada como parâmetro, causará um erro em seu código caso você tente, então tome cuidado, uma propriedade é apenas para leitura, ex:
+``` jsx
+export default function ReadOnly(props){
+   props.title = "New title";
+   return (
+      <h1>{ props.title }</h1>
+   )
+}
+```
+
+### React fragment error: Trata-se do erro que comentei la atrás, uma função jsx do react deve retornar apenas UMA html TAG, caso deseja retornar mais de um, você deve envolve-los com uma outra TAG, ex:
+```jsx
+// ERRO
+export default function FragmentError(props){
+   return (
+      <h1>{ props.title }</h1>
+      <h3>{ props.subtitle }</h3>
+   )
+}
+// Possivel solução 1: essa mostrará que as tags estão envolvidas por uma div no html da página
+export default function FragmentSoluction1(props){
+   return (
+      <div>
+         <h1>{ props.title }</h1>
+         <h3>{ props.subtitle }</h3>
+      </div>
+   )
+}
+// Possivel solução 2: está não envolverá os elementos com nd, apenas mostraram eles mesmos no HTML e mesmo assim livra do erro
+export default function FragmentSoluction2(props){
+   return (
+      <React.Fragment>
+         <h1>{ props.title }</h1>
+         <h3>{ props.subtitle }</h3>
+      </React.Fragment>
+   )
+}
+```
