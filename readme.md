@@ -277,4 +277,50 @@ export default function FragmentSoluction2(props){
       </React.Fragment>
    )
 }
+// Possivel solução 3: sintaxé mais reduzida, não há possibilidade de utilizar propriedades nesse modelo
+export default function FragmentSoluction2(props){
+   return (
+      <>
+         <h1>{ props.title }</h1>
+         <h3>{ props.subtitle }</h3>
+      </>
+   )
+}
+```
+
+## Forma de deixar uma função mais simplificada (Enxuta)
+
+* O export default serve para poder fazer isso, quando voce coloca somente o export, voce obrigatoriamente precisa por um nome para a sua função
+* Já quando voce acompanha o export com o default voce pode simplificar a função e retornar apenas ela simplificada, muitas vezes não colocando nem nome, ex: função anônima
+``` jsx
+import React from 'react';
+//Função anonima
+export default function(props){
+   return (
+      <div></div>
+   )
+}
+// Array function com props
+export default props => {
+   return (
+      <div></div>
+   )
+}
+// Arrow function sem props
+export default () => {
+   return (
+      <div></div>
+   )
+}
+// Array function com props, porém que voce não irá utilizar logo voce coloca um "underline" = "_", para ficar explicito que voce não irá utilizar
+export default _ => {
+   return (
+      <div></div>
+   )
+}
+// FORMA MAIS REDUZIDA DE TODAS QUE CONSEGUIMOS CHEGAR, automaeticamente nessa forma, ele já retorna oq tem na função, logo voce retira o envolver da função e retira o return
+export default _ => 
+   <div>
+      <p></p>
+   </div>
 ```
