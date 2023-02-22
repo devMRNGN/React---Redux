@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default props => {
+export default function Aleatory(props){
    const {min, max} = props;
 
    const valueDrawn = Math.floor(Math.random() * (max - min + 1) + min);

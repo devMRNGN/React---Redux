@@ -324,3 +324,69 @@ export default _ =>
       <p></p>
    </div>
 ```
+
+## ClassName
+
+* No React quando definir uma classe para estilizar, deverá utilizar "className", pois class já é uma palavra reservada do JS
+
+## Children props
+
+* Caso voce necessite passar um componente como propriedade para outro componente, isso é possivel utilizando o "children"
+* Detalhe, voce pode utilizar e passar quantos componentes voce quiser...
+* Ex, sintaxe: 
+``` jsx
+<Card titulo="Exemplo de Card">
+   <Aleatory min={10} max={30}/>
+   <Aleatory min={10} max={30}/>
+   <Aleatory min={10} max={30}/>
+   <Aleatory min={10} max={30}/>
+   <Aleatory min={10} max={30}/>
+   <Aleatory min={10} max={30}/>
+</Card>
+```
+* Para acessar e utilizar possivelmente depois esses "filhos" passados como props, segue o ex:
+``` jsx
+export default function Card(props){
+   return (
+      <div>
+         <div>{ props.children }</div>
+      </div>
+   )
+}
+// Com isso será mostrado todos os outros componentes colocados dentro da props, pois todos são elementos filhos
+```
+
+## Passar cores dinâmicamente para componentes
+
+* passar cores dinamicamentes para cards, fazendo com que cada um receba uma cor diferente através das props, ex:
+* Enviando a color como propriedade:
+```jsx
+<Card 
+   titulo="#04 - Exemplo de Card" color="#080">
+      <Aleatory min={10} max={30}/>
+</Card>
+```
+* Utilizando a color pra ser renderizada como estilo
+```jsx
+export default function Card(props) {
+   const cardStyle = {
+      backgroundColor: props.color || '#F00',
+      borderColor: props.color || '#F00',
+   }
+   return (
+      <div className='Card' style={cardStyle}>
+         <div className="Title">{ props.titulo }</div>
+         <div className="Content">{ props.children }</div>
+      </div>
+   )
+}
+```
+* Podemos também passar diretamente para o style, o objeto, sem precisar criar uma variavel para armazena-lo
+```jsx
+return (
+   <div className="Card" style={{
+      backgroundColor: props.color || "#F00",
+      borderColor: props.color || "#F00",
+   }}></div>
+)
+```
