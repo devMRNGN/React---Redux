@@ -390,3 +390,91 @@ return (
    }}></div>
 )
 ```
+## operador Spread
+
+* Permite que voce passe propriedades recebidas por um componente pai, para seu componente filho, ex: passando todos as props
+* Permite pasasr todas propriedades de uma só vez
+```jsx
+<FamiliaMembro nome="Pedro" {...props}/>
+// OU
+<FamiliaMembro nome="Pedro" sobrenome={props.sobrenome}/>
+```
+## React.cloneElement(props.children)
+
+* Serve para renderizar um elemento filho
+* Porém, tem uma vantagem ,além de renderizar um elemento filho(props.children), voce consegue passar as prorpeidades recebidas no elemento pai, e envia-las para o elemento filho, pois essa função recebe dois parametros, primeiro o elemento, segundo as props, ex abaixo com spread:
+* OBS: esse comando espera receber apenas um único elemento filho, caso voce necessite renderizar vários elementos filhos com props diferentes utilize o conteúdo do proximo tópico
+```jsx
+import React, { cloneElement } from 'react';
+
+export default Familia(props){
+   return(
+      <div>
+         {React.cloneElement(props.children, { ...props })}
+         // Forma com importação
+         cloneElement(props.children, { ...props })
+      </div>
+   )
+}
+``` 
+## React.Children
+
+* Serve para receber vários filhos num componente pai, e renderizalos, levando em conta que todos elementos filhos precisam de uma props que o elemento pai recebe
+ex:
+```jsx
+export default function Familia(props){
+   return (
+      <div>
+         {
+            Children.map(props.children, child => {
+               return cloneElement(child, props)
+            })
+         }
+      </div>
+   )
+}
+```
+* Nesse exemplo, estamos usando um map, que irá percorrer cada elemento children de props.children, e cada iteração receberá um elemento e cada elemento recebido irá ser retornado no cloneElement e será passado as props do pai
+
+## Renderizando um array de elementos
+
+* Como renderizar um array de elementos atravez do Map
+* Sempre necessário passar uma Key quando renderiza arrays, pois é apartir da key que o react identifica mais rapidamente um item
+```js
+//Array
+export default [
+   { id: 1, nome: 'Ana', nota: 9.2 },
+   { id: 2, nome: 'Bia', nota: 10 },
+   { id: 3, nome: 'Carlos', nota: 0.0 },
+   { id: 4, nome: 'Daniel', nota: 8.0 },
+   { id: 5, nome: 'Rebeca', nota: 2.5 },
+   { id: 6, nome: 'Pedro', nota: 7.5 },
+   { id: 7, nome: 'Julia', nota: 6.0 },
+   { id: 8, nome: 'Mayra', nota: 5.5 },
+   { id: 1, nome: 'João', nota: 9.0 }
+]
+```
+```jsx
+// Renderizando com iteração
+import React from 'react';
+import alunos from '../../data/alunos'
+
+export default function ListaAlunos(props){
+
+   const alunosLI = alunos.map(aluno => {
+      return (
+         <li key={aluno.id}>
+            {`${ aluno.id }) ${ aluno.nome } -> ${ aluno.nota }`}
+         </li>
+      )
+   });
+
+   return (
+      <div>
+         <ul>
+            { alunosLI }
+         </ul>
+      </div>
+   )
+}
+```
